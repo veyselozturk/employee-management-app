@@ -61,7 +61,10 @@ public class CompanyEmployeeServiceImp implements CompanyEmployeeService {
 
     @Override
     public Optional<EmployeeResponse> createEmployee(EmployeeRequest request) {
+        var company = companyRepository.findById(request.getCompanyId()).orElseThrow(()
+                -> new IllegalArgumentException("User not found"));
         var employee = modelMapper.map(request, Employee.class);
+        employee.setCompany(company);
         return Optional.of(modelMapper.map(employeeRepository.save(employee), EmployeeResponse.class));
     }
 

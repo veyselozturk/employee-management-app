@@ -17,7 +17,6 @@ import java.util.Optional;
 @RequestScope
 @RestController
 @RequestMapping("/employees")
-@Validated
 public class CompanyEmployeeController{
     private final CompanyEmployeeService companyEmployeeService;
 

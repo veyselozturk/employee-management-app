@@ -32,7 +32,7 @@ public class Employee {
     private String phone;
 
     @ManyToOne
-    @JoinColumn(name = "EMPLOYEE_ID")
+    @JoinColumn(name = "company-id")
     private Company company;
 
 }
