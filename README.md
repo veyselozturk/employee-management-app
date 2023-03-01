@@ -4,11 +4,11 @@
 
 ## Kullandığım dependency'ler ve teknolojiler
 
-Spring Boot 3
-Spring Data JPA
-H2 Veritabanı
-Lombok
-Java 17
+- Spring Boot 3
+- Spring Data JPA
+- H2 Veritabanı
+- Lombok
+- Java 17
 
 ### Açıklama
 
