@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CompanyEmployeeServiceImp implements CompanyEmployeeService {
@@ -31,23 +30,24 @@ public class CompanyEmployeeServiceImp implements CompanyEmployeeService {
     }
 
     @Override
-    public Optional<CompanyResponse> createCompany(CompanyRequest request) {
+    public CompanyResponse createCompany(CompanyRequest request) {
         var company = modelMapper.map(request, Company.class);
-        return Optional.of(modelMapper.map(companyRepository.save(company), CompanyResponse.class));
+        return modelMapper.map(companyRepository.save(company), CompanyResponse.class);
     }
 
     @Override
-    public Optional<CompanyResponse> removeCompanyById(Long companyId) {
-        var company = companyRepository.findById(companyId);
-        companyRepository.deleteById(companyId);
-        return Optional.of(modelMapper.map(company, CompanyResponse.class));
+    public CompanyResponse removeCompanyById(Long companyId) {
+        var company = companyRepository.findById(companyId).orElseThrow();
+        //companyRepository.deleteById(companyId);
+        return modelMapper.map(company, CompanyResponse.class);
     }
 
     @Override
-    public Optional<CompanyResponse> updateCompany(CompanyUpdateRequest request) {
+    public CompanyResponse updateCompany(CompanyUpdateRequest request) {
         var company = companyRepository.findById(request.getCompanyId()).orElseThrow();
         modelMapper.map(request,company);
-        return Optional.of(modelMapper.map(companyRepository.saveAndFlush(company), CompanyResponse.class));
+        company.setName(request.getCompanyName());
+        return modelMapper.map(companyRepository.saveAndFlush(company), CompanyResponse.class);
     }
 
     @Override
@@ -60,26 +60,30 @@ public class CompanyEmployeeServiceImp implements CompanyEmployeeService {
     }
 
     @Override
-    public Optional<EmployeeResponse> createEmployee(EmployeeRequest request) {
+    public EmployeeResponse createEmployee(EmployeeRequest request) {
         var company = companyRepository.findById(request.getCompanyId()).orElseThrow(()
-                -> new IllegalArgumentException("User not found"));
+                -> new IllegalArgumentException("Company not found"));
         var employee = modelMapper.map(request, Employee.class);
         employee.setCompany(company);
-        return Optional.of(modelMapper.map(employeeRepository.save(employee), EmployeeResponse.class));
+        return modelMapper.map(employeeRepository.save(employee), EmployeeResponse.class);
     }
 
     @Override
-    public Optional<EmployeeResponse> removeEmployeeById(Long employeeId) {
-        var employee = employeeRepository.findById(employeeId);
+    public EmployeeResponse removeEmployeeById(Long employeeId) {
+        var employee = employeeRepository.findById(employeeId).orElseThrow();
         employeeRepository.deleteById(employeeId);
-        return Optional.of(modelMapper.map(employee, EmployeeResponse.class));
+        return modelMapper.map(employee, EmployeeResponse.class);
     }
 
     @Override
-    public Optional<EmployeeResponse> updateEmployee(EmployeeUpdateRequest request) {
+    public EmployeeResponse updateEmployee(EmployeeUpdateRequest request) {
+        var company = companyRepository.findById(request.getCompanyId()).orElseThrow(()
+                -> new IllegalArgumentException("Company not found"));
         var employee = employeeRepository.findById(request.getEmployeeId()).orElseThrow();
+        employee.setCompany(company);
         modelMapper.map(request,employee);
-        return Optional.of(modelMapper.map(employeeRepository.saveAndFlush(employee), EmployeeResponse.class));
+
+        return modelMapper.map(employeeRepository.saveAndFlush(employee), EmployeeResponse.class);
     }
 
     @Override
