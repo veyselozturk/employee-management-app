@@ -12,8 +12,10 @@ import lombok.NoArgsConstructor;
 public class EmployeeUpdateRequest {
     private Long employeeId;
     private Long companyId;
+
     private String name;
     private String surname;
     private String email;
     private String phone;
+
 }

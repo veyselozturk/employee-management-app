@@ -38,7 +38,7 @@ public class CompanyEmployeeServiceImp implements CompanyEmployeeService {
     @Override
     public CompanyResponse removeCompanyById(Long companyId) {
         var company = companyRepository.findById(companyId).orElseThrow();
-        //companyRepository.deleteById(companyId);
+        companyRepository.deleteById(companyId);
         return modelMapper.map(company, CompanyResponse.class);
     }
 
@@ -46,7 +46,6 @@ public class CompanyEmployeeServiceImp implements CompanyEmployeeService {
     public CompanyResponse updateCompany(CompanyUpdateRequest request) {
         var company = companyRepository.findById(request.getCompanyId()).orElseThrow();
         modelMapper.map(request,company);
-        company.setName(request.getCompanyName());
         return modelMapper.map(companyRepository.saveAndFlush(company), CompanyResponse.class);
     }
 

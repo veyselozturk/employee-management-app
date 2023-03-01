@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CompanyUpdateRequest {
     private Long companyId;
-    private String companyName;
+    private String name;
 }

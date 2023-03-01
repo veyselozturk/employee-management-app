@@ -7,6 +7,8 @@ import com.veyselozturk.employeemanagementapp.dto.request.EmployeeUpdateRequest;
 import com.veyselozturk.employeemanagementapp.dto.response.CompanyResponse;
 import com.veyselozturk.employeemanagementapp.dto.response.EmployeeResponse;
 import com.veyselozturk.employeemanagementapp.service.CompanyEmployeeService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.annotation.RequestScope;
 
@@ -14,42 +16,43 @@ import java.util.List;
 
 @RequestScope
 @RestController
-@RequestMapping("/employees")
+@RequestMapping("")
 public class CompanyEmployeeController{
     private final CompanyEmployeeService companyEmployeeService;
 
     public CompanyEmployeeController(CompanyEmployeeService companyEmployeeService) {
         this.companyEmployeeService = companyEmployeeService;
     }
-    @PostMapping("/createCompany")
-    public CompanyResponse createCompany(CompanyRequest request){
-        return companyEmployeeService.createCompany(request);
+    @PostMapping("company/createCompany")
+    public ResponseEntity<CompanyResponse> createCompany(CompanyRequest request){
+        return new ResponseEntity<>( companyEmployeeService.createCompany(request), HttpStatus.CREATED);
     }
-    @PostMapping("/createEmployee")
-    public EmployeeResponse createEmployee(EmployeeRequest request){
-        return companyEmployeeService.createEmployee(request);
+    @PostMapping("empoloyee/createEmployee")
+    public ResponseEntity<EmployeeResponse> createEmployee(EmployeeRequest request){
+        return new ResponseEntity<>( companyEmployeeService.createEmployee(request), HttpStatus.CREATED);
     }
-    @DeleteMapping("/delete/{companyId}")
+
+    @DeleteMapping("company/delete/{companyId}")
     public CompanyResponse deleteCompanyById(@PathVariable Long companyId){
         return companyEmployeeService.removeCompanyById(companyId);
     }
-    @DeleteMapping("/delete/{employeeId}")
+    @DeleteMapping("empoloyee/delete/{employeeId}")
     public EmployeeResponse deleteEmployeeById(@PathVariable Long employeeId){
         return companyEmployeeService.removeEmployeeById(employeeId);
     }
-    @PutMapping(value = "/companyUpdate")
+    @PutMapping(value = "company/companyUpdate")
     public CompanyResponse updateCompany(@RequestBody CompanyUpdateRequest updateRequest){
         return companyEmployeeService.updateCompany(updateRequest);
     }
-    @PutMapping(value = "/employeeUpdate")
+    @PutMapping(value = "empoloyee/employeeUpdate")
     public EmployeeResponse updateEmployee(@RequestBody EmployeeUpdateRequest updateRequest){
         return companyEmployeeService.updateEmployee(updateRequest);
     }
-    @GetMapping("/getAllCompanies")
+    @GetMapping("company/getAllCompanies")
     public List<CompanyResponse> findAllCompany(){
         return companyEmployeeService.findAllCompany();
     }
-    @GetMapping("/getAllEmployees")
+    @GetMapping("empoloyee/getAllEmployees")
     public List<EmployeeResponse> findAllEmployee(){
         return companyEmployeeService.findAllEmployee();
     }
