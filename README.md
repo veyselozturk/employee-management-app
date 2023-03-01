@@ -1,6 +1,6 @@
 # employee-management-app
  
-Çalışan Yönetimi uygulaması Uygulaması
+Çalışan Yönetimi Uygulaması
 
 ## Kullandığım dependency'ler ve teknolojiler
 
